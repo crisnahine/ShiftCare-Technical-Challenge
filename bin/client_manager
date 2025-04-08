@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative '../lib/shift_care'
+
+options = {
+  file: File.join(Dir.pwd, 'clients.json')
+}
+
+# Parse command line options
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: client_manager [options] [command] [arguments]"
+
+  opts.on("-f", "--file FILE", "Specify JSON file path (default: ./clients.json)") do |file|
+    options[:file] = file
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+
+  opts.on("-v", "--version", "Show version") do
+    puts "ShiftCare Client Manager v#{ShiftCare::VERSION}"
+    exit
+  end
+end
+
+begin
+  # Extract command and its arguments
+  option_parser.order!
+  command_args = ARGV.dup
+
+  # Run the CLI
+  cli = ShiftCare::CLI.new(options[:file])
+  exit_code = cli.run(command_args)
+  exit(exit_code)
+rescue OptionParser::InvalidOption => e
+  puts "Error: #{e.message}"
+  puts option_parser
+  exit(1)
+rescue => e
+  puts "Error: #{e.message}"
+  exit(1)
+end
