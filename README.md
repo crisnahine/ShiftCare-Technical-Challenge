@@ -16,8 +16,8 @@ A command-line Ruby application for managing client data. This tool allows users
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
-   cd shift_care_challenge
+   git clone https://github.com/crisnahine/ShiftCare-Technical-Challenge
+   cd ShiftCare-Technical-Challenge
    ```
 
 2. Install dependencies:
